@@ -8,10 +8,17 @@ const styles = StyleSheet.create({
   }
 })
 
-export default function TodoList() {
+export default function TodoList({ todos, onRemoveTodo, onToggleTodo }) {
   return (
     <ScrollView contentContainerStyle={styles.listContainer}>
-      <TodoListItem />
+      {todos.map((todo) => (
+        <TodoListItem
+          key={todo.id}
+          item={todo}
+          onRemoveTodo={onRemoveTodo}
+          onToggleTodo={onToggleTodo}
+        />
+      ))}
     </ScrollView>
   )
 }

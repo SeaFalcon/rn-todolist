@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-// Icon.loadFont();
+Icon.loadFont();
 
 const styles = StyleSheet.create({
   container: {
@@ -19,7 +19,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginVertical: 20,
     width: 100,
-    // textAlign: 'center',
   },
   circle: {
     width: 30,
@@ -47,20 +46,30 @@ const styles = StyleSheet.create({
   }
 });
 
-export default function TodoListItem() {
+export default function TodoListItem({ item: { id, textValue, checked }, onRemoveTodo, onToggleTodo }) {
   return (
     <View style={styles.container}>
-      <TouchableOpacity>
-        <View style={styles.completeCircle}>
-          <Icon name="downcircleo" size={30} color="#3143e8" />
-        </View>
+      <TouchableOpacity onPressOut={onToggleTodo(id)}>
+        {checked ? (
+          <View style={styles.completeCircle}>
+            <Icon name="downcircleo" size={30} color="#3143e8" />
+          </View>
+        ) : (
+            <View style={styles.circle}></View>
+          )}
       </TouchableOpacity>
-      <Text style={[styles.text, styles.strikeText]}>
-        items will be shown here
+      <Text
+        style={
+          [styles.text, checked ? styles.strikeText : styles.unstrikeText]
+        }>
+        {textValue}
       </Text>
-      <TouchableOpacity style={styles.buttonContainer}>
+      <TouchableOpacity
+        style={styles.buttonContainer}
+        onPress={onRemoveTodo(id)}
+      >
         <View style={styles.completeCircle}>
-          <Icon name='delete' size={30} color='#e33057'></Icon>
+          <Icon name='delete' size={30} color='#e33057' />
         </View>
       </TouchableOpacity>
     </View>
